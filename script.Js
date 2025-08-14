@@ -62,7 +62,7 @@ class MONSTERClass {
   { 
     Hero.HP = Number(Hero.HP) - Number(Monster.Forca);
     BattleLog.innerHTML = BattleLog.innerHTML + `,${Monster.Name} revidou o ataque contra ${Hero.Name}`;
-   
+    console.log(Hero.HP);
   }
 }
 class ITENS{ 
@@ -123,6 +123,16 @@ class ITENS{
         ID:"cajado_magico"
     }
 }
+function UpdateUI (CurrentUpdate,NewValue,Repeat) { 
+if(Repeat === true)
+  {
+    CurrentUpdate.innerHTML = CurrentUpdate.innerHTML + NewValue; 
+  }
+else
+{
+  CurrentUpdate.innerHTML = NewValue; 
+}
+}
 function Start() 
 {
   //Getting Hero dat and getting a monster; 
@@ -146,22 +156,31 @@ function Start()
 };
 function Attacklogic()
 {
+AttackBtn.disabled = true; 
 Hero.Attack(Monster)
 console.log(Monster.HP);//Flag 
 if (Monster.HP <= 0 )
   { 
     ENDGAME()
     return;
-  }
-DisplayMonsterHp.innerHTML = Monster.HP; 
+}
+UpdateUI(DisplayMonsterHp,Monster.HP,false);
 //Monster attacking player lógic 
-setTimeout(() => Monster.AttackBack(Hero),1050);
-if(Hero.HP <= 0 )
+setTimeout(() => 
+  {
+    Monster.AttackBack(Hero);
+    UpdateUI(DisplayHeroHP,Hero.HP,false)
+    if(Hero.HP <= 0 )
   {
     GAMEOVER();
-    return;
+    return; 
   }
-DisplayHeroHP.innerHTML = Hero.HP; 
+    else 
+    {
+       AttackBtn.disabled = false;
+    }
+  },
+  1050) 
 }
 function ENDGAME() { 
 // fazer a funcão de vitoria do jogo aqui 

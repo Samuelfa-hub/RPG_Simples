@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini RPG - Batalha de Turnos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Mini RPG</h1>
+        <hr>
+
+        <div class="popup-container" id="start-popup">
+    <div class="popup-content">
+        <h2>Escolha seu Herói</h2>
+        <select id="hero-select">
+            <option value=0>Aragorn (HP: 100, Força: 15)</option>
+            <option value=1>Legolas (HP: 80, Força: 20)</option>
+            <option value=2>Gimli (HP: 120, Força: 12)</option>
+        </select>
+        <button id="start-btn">Começar Batalha!</button>
+    </div>
+</div>
+        
+        <div class="battle-log" id="battle-log">
+            </div>
+
+        <div class="status-container">
+            <div class="character-status hero-status">
+                <h2>Herói: <span id="hero-name"></span></h2>
+                <p>HP: <span id="hero-hp"></span></p>
+                <p>Força: <span id="hero-attack"></span></p>
+                <div class="inventory">
+                    <h3>Inventário</h3>
+                    <ul id="inventory-list">
+                        </ul>
+                </div>
+            </div>
+
+            <div class="character-status monster-status">
+                <h2>Monstro: <span id="monster-name"></span></h2>
+                <p>HP: <span id="monster-hp"></span></p>
+                <p>Força: <span id="monster-attack"></span></p>
+            </div>
+        </div>
+
+        <div class="actions">
+            <h2>Escolha sua ação:</h2>
+            <button id="attack-btn">Atacar</button>
+            <div class="item-actions">
+                <select id="item-select">
+                    </select>
+                <button id="use-item-btn">Usar Item</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

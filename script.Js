@@ -2,6 +2,8 @@
   const PopBtn =  document.getElementById("start-btn"); 
   const StartPop = document.getElementById("start-popup"); 
   const HeroData = document.getElementById("hero-select");
+  const AttackBtn = document.getElementById("attack-btn");
+  const BattleLog = document.getElementById("battle-log");
   //Display IDs
     const DisplayHeroName = document.getElementById("hero-name");
     const DisplayHeroHP = document.getElementById("hero-hp"); 
@@ -27,52 +29,12 @@ const Monstros = [
     { nome: "Capitão Uruk-hai", hp: 120, forcaAtaque: 24 },
     { nome: "Smaug (Filhote)", hp: 250, forcaAtaque: 40 }
 ]
-const Itens =[
-    {
-        Name:"Poção de Cura",
-        Effect:"Cura 50 pontos de vida do heroi",   
-        Points: 50 ,  
-    },
-    {
-        Name:"Poção de Agilidade",
-        Effect:"Aumenta sua chance de esquivar de um Ataque por 5 turnos",
-        Points:25 ,//percentage 
-    }
-    ,{
-        Name: "Espada do Poder",
-        Effect: "Aumenta a força de ataque do herói em 10 pontos.",
-        Points: 10,
-    },
-    {
-        Name: "Escudo do Guardião",
-        Effect: "Reduz o dano recebido do próximo ataque em 30%.",
-        Points: 30,
-    },
-    {
-        Name: "Anel da Sorte",
-        Effect: "Aumenta sua chance de acerto crítico em 10%.",
-        Points: 10,
-    },
-    {
-        Name: "Poção de Força",
-        Effect: "Aumenta a força de ataque do herói em 5 pontos por 2 turnos.",
-        Points: 5,
-    },
-    {
-        Name: "Armadura de Couro",
-        Effect: "Adiciona 20 pontos de defesa.",
-        Points: 20,
-    },
-    {
-        Name: "Cajado Mágico",
-        Effect: "Causa um dano mágico de 20 pontos ao monstro.",
-        Points: 20,
-    },
-] 
 //Data
 let Hero = ""; 
 let Monster ="";
-PopBtn.addEventListener("click",Start);//funcção inicial do popup 
+//Event listeners 
+PopBtn.addEventListener("click",Start);//initial function for getting data and clossing the popup
+AttackBtn.addEventListener("click",Attacklogic);
 //classes  
 class HEROClass
 {
@@ -83,6 +45,11 @@ class HEROClass
     this.Forca = Forca;
     this.inventario = "";  
   }
+Attack(target)
+  { 
+    Monster.HP = Number(Monster.HP) - Number(Hero.Forca);
+    BattleLog.innerHTML = `${Hero.Name} attacou o ${Monster.Name}`
+  }
 }
 class MONSTERClass {
   constructor(Name,HP,Forca)
@@ -91,14 +58,69 @@ class MONSTERClass {
     this.HP = HP, 
     this.Forca = Forca;  
   }
-
+  AttackBack(target)
+  { 
+    Hero.HP = Number(Hero.HP) - Number(Monster.Forca);
+    BattleLog.innerHTML = BattleLog.innerHTML + `,${Monster.Name} revidou o ataque contra ${Hero.Name}`;
+   
+  }
 }
-class ITENSClass { 
-    constructor(Name,Effect,Points)
+class ITENS{ 
+  static PocaoDeCura =
     {
-        this.Name = Name, 
-        this.Effect = Effect,
-        this.Points = Points;  
+        Name:"Poção de Cura",
+        Effect:"Cura 50 pontos de vida do heroi",   
+        Points: 50 ,
+        ID:"pocao_de_cura"  
+    }
+  static PocaoDeAgilidade = 
+    {
+        Name:"Poção de Agilidade",
+        Effect:"Aumenta sua chance de esquivar de um Ataque por 5 turnos",
+        Points:25 ,//percentage
+        ID:"pocao_de_agilidade" 
+    }
+  static EspadaDoPoder =
+    {
+        Name: "Espada do Poder",
+        Effect: "Aumenta a força de ataque do herói em 10 pontos.",
+        Points: 10,
+        ID:"espada_do_poder"
+    }
+  static EscudoDoGuardiao = 
+    {
+        Name: "Escudo do Guardião",
+        Effect: "Reduz o dano recebido do próximo ataque em 30%.",
+        Points: 30,
+        ID:"escudo_do_guardiao"
+    }
+  static AnelDaSorte = 
+    {
+        Name: "Anel da Sorte",
+        Effect: "Aumenta sua chance de acerto crítico em 10%.",
+        Points: 10,
+        ID:"anel_da_sorte"
+    }
+  static PocaoDeForca = 
+    {
+        Name: "Poção de Força",
+        Effect: "Aumenta a força de ataque do herói em 5 pontos por 2 turnos.",
+        Points: 5,
+        ID:"pocao_de_forca"
+    }
+  static ArmaduraDeCouro = 
+    {
+        Name: "Armadura de Couro",
+        Effect: "Adiciona 20 pontos de defesa.",
+        Points: 20,
+        ID:"armadura_de_couro"
+    }
+  static CajadoMagico = 
+    {
+        Name: "Cajado Mágico",
+        Effect: "Causa um dano mágico de 20 pontos ao monstro.",
+        Points: 20,
+        ID:"cajado_magico"
     }
 }
 function Start() 
@@ -122,3 +144,30 @@ function Start()
   //removing the popup 
   StartPop.style.display = "none";
 };
+function Attacklogic()
+{
+Hero.Attack(Monster)
+console.log(Monster.HP);//Flag 
+if (Monster.HP <= 0 )
+  { 
+    ENDGAME()
+    return;
+  }
+DisplayMonsterHp.innerHTML = Monster.HP; 
+//Monster attacking player lógic 
+setTimeout(() => Monster.AttackBack(Hero),1050);
+if(Hero.HP <= 0 )
+  {
+    GAMEOVER();
+    return;
+  }
+DisplayHeroHP.innerHTML = Hero.HP; 
+}
+function ENDGAME() { 
+// fazer a funcão de vitoria do jogo aqui 
+console.log("vitoria");
+}
+function GAMEOVER() 
+{ 
+  console.log("Game over");//to be continued logic 
+}

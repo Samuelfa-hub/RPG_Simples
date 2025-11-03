@@ -13,7 +13,10 @@
     const DisplayMonsterName = document.getElementById("monster-name");
     const DisplayMonsterHp = document.getElementById("monster-hp");
     const DisplayMonsterStrenght = document.getElementById("monster-attack");
-//Arrays 
+    const DisplayWin = document.getElementById("win-popup");
+    const DisplayGO = document.getElementById("game-over-popup");
+
+  //Arrays 
 const Heros = [
   {Name:"Aragorn",HP: 100, Forca: 15},
   {Name:"Legolas",HP: 80, Forca: 20}, 
@@ -194,6 +197,8 @@ function Start()
   DisplayMonsterStrenght.innerHTML = Monster.Forca;
   //sorting itens 
   RandomizingItens()
+  RenderInventory()
+  console.log(Hero.inventory);
   //removing the popup 
   StartPop.style.display = "none";
 };
@@ -247,17 +252,18 @@ setTimeout(() =>
   },
   1050) 
 }
-function ItensLogic(ITENS)
+function ItensLogic()
+
 {
 
 }
 function ENDGAME() { 
 // fazer a funcão de vitoria do jogo aqui 
-console.log("vitoria");
+DisplayWin.style.display = "block";
 }
 function GAMEOVER() 
 { 
-  console.log("Game over");//to be continued logic 
+  DisplayGO.style.display = "block";//to be continued logic 
 }
 function RandomizingItens() 
 {
@@ -267,4 +273,22 @@ function RandomizingItens()
     }
   
     
+}
+function RenderInventory(){ 
+  {
+    let inventoryHTML = ` ` ;
+    Hero.inventory.forEach((item, index)=> {
+      
+    inventoryHTML += `
+      <button
+      class="inventory-item-btn"
+      title="${item.Effect}"
+      onclick="ItensLogic(${index})"
+      >
+      ${item.Name}
+      </button>
+      `
+    });
+  DisplayHeroInventory.innerHTML = inventoryHTML; 
+}
 }

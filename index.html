@@ -56,6 +56,36 @@
             </div>
         </div>
 
+        <div id="game-over-popup" class="game-popup">
+    <div class="popup-content game-over-theme">
+        <div class="popup-header">
+            <span class="header-icon">💀</span>
+            <h2>Fim de Jogo</h2>
+            <span class="header-icon">💀</span>
+        </div>
+        <p>Seu herói foi derrotado pelo monstro.</p>
+        <p>A escuridão venceu desta vez. Tente novamente!</p>
+        <button id="reset-game-over-btn" class="reset-btn" onclick="window.location.reload()">
+            Recomeçar Jornada
+        </button>
+    </div>
+</div>
+
+<div id="win-popup" class="game-popup">
+    <div class="popup-content win-theme">
+        <div class="popup-header">
+            <span class="header-icon">✨</span>
+            <h2>VITÓRIA GLORIOSA!</h2>
+            <span class="header-icon">✨</span>
+        </div>
+        <p>Parabéns, ${Hero.Name}!</p>
+        <p>O monstro foi derrotado e a paz foi restaurada.</p>
+        <button id="reset-win-btn" class="reset-btn" onclick="window.location.reload()">
+            Continuar Aventura (Reiniciar)
+        </button>
+    </div>
+</div>
+
     </div>
 
     <script src="script.js"></script>

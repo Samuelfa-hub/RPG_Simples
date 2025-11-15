@@ -38,6 +38,7 @@ const Monstros = [
 //Data
 let Hero = ""; 
 let Monster ="";
+let SelectedItem = null; 
 //Event listeners 
 PopBtn.addEventListener("click",Start);//initial function for getting data and clossing the popup
 AttackBtn.addEventListener("click",Attacklogic);
@@ -54,7 +55,6 @@ class HEROClass
     this.inventory = [];
     this.AgilitiEffect = 0;
     this.Escudo = false;  
-    this.StgEffect = 0;
     this.Defesa = 0; 
   }
 Attack(target)
@@ -104,64 +104,55 @@ class MONSTERClass {
 }
 class ITENS{ 
   static All_Itens = [
-    {Name:"Poção de Cura",
-      Effect:"Cura 50 pontos de vida do heroi",
+    {Name:"Poção de Cura ",
+      Effect:"Cura 50 pontos de vida do heroi ",
       Points: 50 ,
       ID:"pocao_de_cura",
-      Action:(Hero) => {Hero.HP += 50;}
+      Action:() => {Hero.HP += 50;}
     },
-    {Name:"Poção de Agilidade",
-      Effect:"Aumenta sua chance de esquivar de um Ataque por 5 turnos",
+    {Name:"Poção de Agilidade ",
+      Effect:`Aumenta sua chance de esquivar de um Ataque por 5 turnos `,
       Points:4,//25%
       ID:"pocao_de_agilidade",
-      Action:(Hero) => {
+      Action:() => {
         Hero.AgilitiEffect = 5; 
-        BattleLog.innerHTML += `você consumiu uma ${this.name}` 
+        BattleLog.innerHTML += `você consumiu uma ${this.name} ` 
       }
     }
     ,
-    {Name: "Espada do Poder",
-      Effect: "Aumenta a força de ataque do herói em 10 pontos.",
+    {Name: "Espada do Poder ",
+      Effect: "Aumenta a força de ataque do herói em 10 pontos. ",
       Points: 10,
       ID:"espada_do_poder",
-      Action:(Hero) => {Hero.Forca += 10}
+      Action:() => {Hero.Forca += 10}
     },
     {Name: "Escudo do Guardião",
-      Effect: "Reduz o dano recebido do próximo ataque em 30%.",
+      Effect: "Reduz o dano recebido do próximo ataque em 30%. ",
       Points: 30,
       ID:"escudo_do_guardiao",
-      Action:(Hero) => {
-        BattleLog += `${Hero.name} ergueu o ${this.name}`
+      Action:() => {
+        BattleLog.innerHTML += `${Hero.name} ergueu o ${this.name} `
         Hero.Escudo = true;
       } 
 
     }
     ,
-    {Name: "Poção de Força",
-      Effect: "Aumenta a força de ataque do herói em 5 pontos por 2 turnos.",
-      Points: 5,
-      ID:"pocao_de_forca",
-      Action:(Hero) => {
-        Hero.StgEffect = 2; 
-        BattleLog.innerHTML = `${Hero.name} sente a forca correr por seus musculos`
-      } 
-    },
     {Name: "Armadura de Couro",
       Effect: "Adiciona 20 pontos de defesa.",
-      Points: 20,
+      Points: 5,
       ID:"armadura_de_couro",
-      Action: (Hero) => {
-        Hero.Defesa += 20; 
-        BattleLog.innerHTML += `${Hero.name} tem menos forca contra você agora`  
+      Action: () => {
+        Hero.Defesa += 5; 
+        BattleLog.innerHTML += `${Hero.name} tem menos forca contra você agora `  
       }
     }, 
     {Name: "Cajado Mágico",
       Effect: "Causa um dano mágico de 20 pontos ao monstro.",
       Points: 20,
       ID:"cajado_magico",
-      Action: (Monster) => {
+      Action: () => {
         Monster.HP -= 20; 
-        BattleLog.innerHTML += `${Monster.name}recebeu uma rajada de misseis magicos`;
+        BattleLog.innerHTML += `${Monster.name}recebeu uma rajada de misseis magicos `;
         UpdateUI (DisplayMonsterHp,Monster.HP,false);
       }
     }
@@ -221,14 +212,15 @@ setTimeout(() =>
     {
       if(Math.floor(Math.random()*4) == 1) 
       { 
-        BattleLog.innerHTML += `${Hero.Name} desviou do ataque`
+        BattleLog.innerHTML += `${Hero.Name} desviou do ataque `
         Hero.AgilitiEffect -= 1;  
         return;
       }
       else 
       {
         ExecutarAtaque = true
-        BattleLog.innerHTML += `${Hero.Name} não conseguiu desviar`
+        Hero.AgilitiEffect -= 1; 
+        BattleLog.innerHTML += `${Hero.Name} não conseguiu desviar `
       }
     }
     else  
@@ -253,9 +245,25 @@ setTimeout(() =>
   1050) 
 }
 function ItensLogic()
-
 {
+  if (SelectedItem == null)
+  {
+    BattleLog.innerHTML += "nenhum item foi selecionado "
+  }
+  else
+  {
+    SelectedItem.Action();
+    BattleLog.innerHTML += ` Você utilizou o item ${SelectedItem.Name} `;
+    const indextoremove = Hero.inventory.indexOf(SelectedItem);
+    Hero.inventory.splice(indextoremove,1);
+    RenderInventory()
+    //updating UIs 
+    UpdateUI(DisplayMonsterHp,Monster.HP,false);//MonsterHP
+    UpdateUI(DisplayHeroStrenght,Hero.Forca,false);
+    UpdateUI(DisplayHeroHP,Hero.HP,false);
 
+
+  }  
 }
 function ENDGAME() { 
 // fazer a funcão de vitoria do jogo aqui 
@@ -274,21 +282,34 @@ function RandomizingItens()
   
     
 }
-function RenderInventory(){ 
+function RenderInventory() 
   {
     let inventoryHTML = ` ` ;
-    Hero.inventory.forEach((item, index)=> {
+    Hero.inventory.forEach((item, index)=> 
+      {
       
     inventoryHTML += `
       <button
       class="inventory-item-btn"
       title="${item.Effect}"
-      onclick="ItensLogic(${index})"
+      onclick="SelectItem('${item.ID}')"
+      name="${item.Name}"
       >
       ${item.Name}
       </button>
       `
+      
     });
   DisplayHeroInventory.innerHTML = inventoryHTML; 
-}
+  }
+function SelectItem(index)//selecting the iten to be able to do the use iten logic 
+{ 
+  const SelectedItemObject = Hero.inventory.find(item => item.ID === index);
+  if (SelectedItemObject)
+    {
+      SelectedItem = SelectedItemObject;
+      console.log("Item Selecionado", SelectedItem.Name)
+      BattleLog.innerHTML += `Item selecionado ${SelectedItem.Name} `;
+    } 
+  console.log(SelectedItem); //flag 
 }

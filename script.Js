@@ -82,7 +82,8 @@ class MONSTERClass {
     this.HP = HP, 
     this.Forca = Forca;
     //Itens condition activiti 
-    this.AgilitiPTN = 0;  
+    this.AgilitiPTN = 0; 
+    this.Score = (Monster.Forca < 20) ? 250 : 500; 
   }
   AttackBack(target)
   { 
@@ -192,6 +193,7 @@ function Start()
   console.log(Hero.inventory);
   //removing the popup 
   StartPop.style.display = "none";
+  console.log(Monster.Score)
 };
 function Attacklogic()
 {
@@ -312,4 +314,13 @@ function SelectItem(index)//selecting the iten to be able to do the use iten log
       BattleLog.innerHTML += `Item selecionado ${SelectedItem.Name} `;
     } 
   console.log(SelectedItem); //flag 
+}
+// The itens above this section is the hole game logic,the following code its a little extra i'm trying to add 
+function Scoreboard(LastScoreboard)
+{
+  //this function will recieve the last scoreboard and add a new value to it equal to the monster value
+
+
+
+
 }

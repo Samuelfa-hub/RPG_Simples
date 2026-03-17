@@ -15,12 +15,14 @@
     const DisplayMonsterStrenght = document.getElementById("monster-attack");
     const DisplayWin = document.getElementById("win-popup");
     const DisplayGO = document.getElementById("game-over-popup");
+    const DisplayScore = document.getElementById("Score")
 
   //Arrays 
 const Heros = [
   {Name:"Aragorn",HP: 100, Forca: 15},
   {Name:"Legolas",HP: 80, Forca: 20}, 
-  {Name:"Gimli",HP: 120, Forca: 12}
+  {Name:"Gimli",HP: 120, Forca: 12},
+  {Name:"DEBBUGER",HP:999,Forca:999}
 ]
 const Monstros = [    
     { nome: "Goblin de Moria", hp: 40, forcaAtaque: 8 },
@@ -40,6 +42,7 @@ let Hero = "";
 let Monster ="";
 let SelectedItem = null;
 let CurentScore = 0;  
+let StorageScore = localStorage.getItem("RPG_Score");
 //Event listeners 
 PopBtn.addEventListener("click",Start);//initial function for getting data and clossing the popup
 AttackBtn.addEventListener("click",Attacklogic);
@@ -195,6 +198,7 @@ function Start()
   //removing the popup 
   StartPop.style.display = "none";
   console.log(Monster.Score)
+  DisplayScore.innerHTML = StorageScore; 
 };
 function Attacklogic()
 {
@@ -320,6 +324,7 @@ function SelectItem(index)//selecting the iten to be able to do the use iten log
 function Scoreboard(LastScoreboard)
 {
   //this function will recieve the last scoreboard and add a new value to it equal to the monster value
-  CurentScore = LastScoreboard + CurentScore;
+  CurentScore = Number(StorageScore) + Monster.Score;
+  localStorage.setItem("RPG_Score",String(CurentScore))
   console.log("A função está sendo chamada")
 }

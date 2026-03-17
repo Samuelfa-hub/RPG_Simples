@@ -38,7 +38,8 @@ const Monstros = [
 //Data
 let Hero = ""; 
 let Monster ="";
-let SelectedItem = null; 
+let SelectedItem = null;
+let CurentScore = 0;  
 //Event listeners 
 PopBtn.addEventListener("click",Start);//initial function for getting data and clossing the popup
 AttackBtn.addEventListener("click",Attacklogic);
@@ -83,7 +84,7 @@ class MONSTERClass {
     this.Forca = Forca;
     //Itens condition activiti 
     this.AgilitiPTN = 0; 
-    this.Score = (Monster.Forca < 20) ? 250 : 500; 
+    this.Score = (Number(this.Forca) <= 25) ? 250 : 500;
   }
   AttackBack(target)
   { 
@@ -216,7 +217,6 @@ setTimeout(() =>
       { 
         BattleLog.innerHTML += `${Hero.Name} desviou do ataque `
         Hero.AgilitiEffect -= 1;  
-        return;
       }
       else 
       {
@@ -270,6 +270,7 @@ function ItensLogic()
 function ENDGAME() { 
 // fazer a funcão de vitoria do jogo aqui 
 DisplayWin.style.display = "block";
+Scoreboard(CurentScore)
 }
 function GAMEOVER() 
 { 
@@ -319,8 +320,6 @@ function SelectItem(index)//selecting the iten to be able to do the use iten log
 function Scoreboard(LastScoreboard)
 {
   //this function will recieve the last scoreboard and add a new value to it equal to the monster value
-
-
-
-
+  CurentScore = LastScoreboard + CurentScore;
+  console.log("A função está sendo chamada")
 }

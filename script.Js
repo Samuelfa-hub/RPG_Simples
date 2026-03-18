@@ -15,8 +15,8 @@
     const DisplayMonsterStrenght = document.getElementById("monster-attack");
     const DisplayWin = document.getElementById("win-popup");
     const DisplayGO = document.getElementById("game-over-popup");
-    const DisplayScore = document.getElementById("Score")
-
+    const DisplayScore = document.getElementById("Score");
+    const DisplayHyScore = document.getElementById("HyScore");
   //Arrays 
 const Heros = [
   {Name:"Aragorn",HP: 100, Forca: 15},
@@ -42,7 +42,8 @@ let Hero = "";
 let Monster ="";
 let SelectedItem = null;
 let CurentScore = 0;  
-let StorageScore = localStorage.getItem("RPG_Score");
+let CurentStorageScore = localStorage.getItem("RPG_CurentScore");
+let HyScoreStorage = localStorage.getItem("RPG_HyScore");
 //Event listeners 
 PopBtn.addEventListener("click",Start);//initial function for getting data and clossing the popup
 AttackBtn.addEventListener("click",Attacklogic);
@@ -197,8 +198,8 @@ function Start()
   console.log(Hero.inventory);
   //removing the popup 
   StartPop.style.display = "none";
-  console.log(Monster.Score)
-  DisplayScore.innerHTML = StorageScore; 
+  DisplayScore.innerHTML = CurentStorageScore;
+  DisplayHyScore.innerHTML = HyScoreStorage;
 };
 function Attacklogic()
 {
@@ -279,6 +280,10 @@ Scoreboard(CurentScore)
 function GAMEOVER() 
 { 
   DisplayGO.style.display = "block";//to be continued logic 
+  //if the curent score is hyer then the last hy score update it 
+  Number(CurentStorageScore) > Number(HyScoreStorage) ? (localStorage.setItem("RPG_HyScore",String(CurentStorageScore)),localStorage.setItem("RPG_CurentScore","0")): 
+                                                                                                    localStorage.setItem("RPG_CurentScore","0");
+  DisplayHyScore.innerHTML = HyScoreStorage;
 }
 function RandomizingItens() 
 {
@@ -324,7 +329,7 @@ function SelectItem(index)//selecting the iten to be able to do the use iten log
 function Scoreboard(LastScoreboard)
 {
   //this function will recieve the last scoreboard and add a new value to it equal to the monster value
-  CurentScore = Number(StorageScore) + Monster.Score;
-  localStorage.setItem("RPG_Score",String(CurentScore))
+  CurentScore = Number(CurentStorageScore) + Monster.Score;
+  localStorage.setItem("RPG_CurentScore",String(CurentScore))
   console.log("A função está sendo chamada")
 }

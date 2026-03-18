@@ -10,6 +10,9 @@
     <div class="container">
         <h1>Mini RPG</h1>
         <hr>
+        <h3 id="ScoreContainer">Score:<Span id="Score"></Span></h3>
+
+        <h3 id="HyScoreContainer">HyScore:<Span id="HyScore"></Span></h3>
 
         <div class="popup-container" id="start-popup">
     <div class="popup-content">
@@ -18,12 +21,14 @@
             <option value="Aragorn">Aragorn (HP: 100, Força: 15)</option>
             <option value="Legolas">Legolas (HP: 80, Força: 20)</option>
             <option value="Gimli">Gimli (HP: 120, Força: 12)</option>
+            <option value="DEBBUGER">DEBBUGER (HP: 999, Força: 999)</option>
         </select>
         <button id="start-btn">Começar Batalha!</button>
     </div>
 </div>
         
         <div class="battle-log" id="battle-log">
+            
             
             </div>
 
@@ -37,8 +42,9 @@
                     <ul id="inventory-list">
                         </ul>
                 </div>
+              
             </div>
-
+                  <br>
             <div class="character-status monster-status">
                 <h2>Monstro: <span id="monster-name"></span></h2>
                 <p>HP: <span id="monster-hp"></span></p>
